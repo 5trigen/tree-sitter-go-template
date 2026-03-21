@@ -1,3 +1,5 @@
+/// <reference types="tree-sitter-cli/dsl" />
+
 const PREC = {
         primary: 1,
         else_if: 1,
@@ -332,8 +334,8 @@ module.exports = function make_grammar(dialect) {
                 prec.right(
                     seq(
                         $._pipeline,
-                        repeat(seq(' ', $._pipeline)),
-                        optional(' ')
+                        repeat(seq(/\s+/, $._pipeline)),
+                        optional(/\s+/)
                     )
                 ),
 
