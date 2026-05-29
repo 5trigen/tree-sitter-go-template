@@ -49,11 +49,18 @@ jobs:
             matrix:
                 os: [macos-latest, ubuntu-latest]
         steps:
-            - uses: actions/checkout@v4
-            - uses: actions/setup-python@v5
-              with:
-                  python-version: '3.11'
-            - run: python -m unittest ./bindings/python/tests/test_binding.py
+        - name: Set up Python
+          uses: actions/setup-python@v6
+          with:
+            cache: pip
+            python-version: 3.11
+            cache-dependency-path: pyproject.toml
+        - name: Build module
+          shell: sh
+          run: pip install -e .[core]
+        - name: Run tests
+          shell: sh
+          run: python -m unittest discover -v -s bindings/python/tests
 
     prettier:
         runs-on: ubuntu-latest
